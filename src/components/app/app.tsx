@@ -80,7 +80,10 @@ const App = () => {
           element={<ProtectedRoute element={<ProfileOrders />} />}
         />
         <Route path='*' element={<NotFound404 />} />
-        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route
+          path='/feed/:number'
+          element={<OrderInfo background={location} />}
+        />
         <Route
           path='/ingredients/:id'
           element={<IngredientDetails background={location} />}

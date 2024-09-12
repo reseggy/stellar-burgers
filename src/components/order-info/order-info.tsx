@@ -4,13 +4,17 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { RootState, useDispatch, useSelector } from '../../services/store';
 import { getOrderByNumber } from '../../slices/orderSlice';
-import { useParams } from 'react-router-dom';
+import { useParams, Location } from 'react-router-dom';
 
 type Params = {
   number: string;
 };
 
-export const OrderInfo: FC = () => {
+interface OrderInfoProps {
+  background?: Location;
+}
+
+export const OrderInfo: FC<OrderInfoProps> = ({ background }) => {
   const { number } = useParams<Params>();
 
   const dispatch = useDispatch();
@@ -69,5 +73,5 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return <OrderInfoUI orderInfo={orderInfo} background={background} />;
 };
