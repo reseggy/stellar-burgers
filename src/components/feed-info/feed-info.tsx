@@ -1,8 +1,7 @@
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector, RootState } from '../../services/store';
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
-import { RootState } from 'src/services/store';
 import { getFeeds } from '../../slices/feedSlice';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>

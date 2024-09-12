@@ -1,10 +1,9 @@
 import { FC, memo, useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { RootState } from 'src/services/store';
 import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector, RootState } from '../../services/store';
 import { fetchIngredients } from '../../slices/ingredientsSlice';
 const maxIngredients = 6;
 

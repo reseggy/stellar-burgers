@@ -27,65 +27,38 @@ const initialState: userState = {
 
 export const registerUser = createAsyncThunk(
   'user/userRegister',
-  async (data: TRegisterData, { rejectWithValue }) => {
-    try {
-      const response = await registerUserApi(data);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (data: TRegisterData) => {
+    const response = await registerUserApi(data);
+    return response;
   }
 );
 
 export const loginUser = createAsyncThunk(
   'user/login',
-  async (data: TLoginData, { rejectWithValue }) => {
-    try {
-      const response = await loginUserApi(data);
-      setCookie('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (data: TLoginData) => {
+    const response = await loginUserApi(data);
+    setCookie('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    return response;
   }
 );
 
-export const getUser = createAsyncThunk(
-  'user/get',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getUserApi();
-
-      return response.user;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
+export const getUser = createAsyncThunk('user/get', async () => {
+  const response = await getUserApi();
+  return response.user;
+});
 
 export const updateUser = createAsyncThunk(
   'user/update',
-  async (data: TRegisterData, { rejectWithValue }) => {
-    try {
-      const response = await updateUserApi(data);
-      return response.user;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (data: TRegisterData) => {
+    const response = await updateUserApi(data);
+    return response.user;
   }
 );
 
-export const logoutUser = createAsyncThunk(
-  'user/logout',
-  async (_, { rejectWithValue }) => {
-    try {
-      await logoutApi();
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
+export const logoutUser = createAsyncThunk('user/logout', async () => {
+  await logoutApi();
+});
 
 export const userSlice = createSlice({
   name: 'user',

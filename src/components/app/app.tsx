@@ -13,40 +13,19 @@ import '../../index.css';
 import styles from './app.module.css';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
-import { ReactElement, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../services/store';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from '../../services/store';
 import { checkAuth, getUser } from '../../slices/userSlice';
 import { fetchIngredients } from '../../slices/ingredientsSlice';
-import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { getCookie } from '../../utils/cookie';
 import { refreshToken as refresh } from '../../utils/burger-api';
-interface ProtectedRouteProps {
-  element: ReactElement;
-}
-
-const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
-  return isAuthenticated ? element : <Navigate to='/login' />;
-};
-
-interface PublicRouteProps {
-  element: ReactElement;
-}
-
-export const PublicRoute = ({ element }: PublicRouteProps) => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
-  return !isAuthenticated ? element : <Navigate to='/profile' />;
-};
+import PublicRoute from '../public-route/public-route';
+import ProtectedRoute from '../protected-route/protected-route';
+import FeedOrderModal from '../feed-order-modal/feed-order-modal';
+import ProfileOrderModal from '../profile-order-modal/profile-order-modal';
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -102,22 +81,21 @@ const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
         <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/ingredients/:id'
+          element={<IngredientDetails background={location} />}
+        />
       </Routes>
       {background && (
         <Routes>
           <Route
             path='/feed/:number'
-            element={
-              <Modal title={'Order Info'} onClose={onClose}>
-                <OrderInfo />
-              </Modal>
-            }
+            element={<FeedOrderModal onClose={onClose} />}
           />
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={'Ingredient Details'} onClose={onClose}>
+              <Modal title={'Детали ингредиента'} onClose={onClose}>
                 <IngredientDetails />
               </Modal>
             }
@@ -126,11 +104,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute
-                element={
-                  <Modal title={'Order Info'} onClose={onClose}>
-                    <OrderInfo />
-                  </Modal>
-                }
+                element={<ProfileOrderModal onClose={onClose} />}
               />
             }
           />

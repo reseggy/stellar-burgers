@@ -18,17 +18,10 @@ const initialState: FeedState = {
   error: null
 };
 
-export const getFeeds = createAsyncThunk(
-  'feed/get',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getFeedsApi();
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
+export const getFeeds = createAsyncThunk('feed/get', async () => {
+  const response = await getFeedsApi();
+  return response;
+});
 
 const feedSlice = createSlice({
   name: 'feed',

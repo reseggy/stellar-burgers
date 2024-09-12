@@ -1,10 +1,9 @@
 import { FC, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { RootState } from 'src/services/store';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector, RootState } from '../../services/store';
 import { createOrder } from '../../slices/orderSlice';
-import { useNavigate } from 'react-router-dom';
 import { clearConstructor } from '../../slices/сonstructorSlice';
 
 export const BurgerConstructor: FC = () => {
