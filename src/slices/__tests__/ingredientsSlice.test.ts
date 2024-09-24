@@ -7,6 +7,16 @@ describe('ingredientSlice tests', () => {
     error: null
   };
   describe('reducers tests', () => {
+    test('should return the initial state', () => {
+      const state = ingredientReducer(undefined, { type: '@@INIT' });
+      expect(state).toEqual(initialState);
+    });
+
+    test('should handle unknown action', () => {
+      const state = ingredientReducer(initialState, { type: 'UNKNOWN_ACTION' });
+      expect(state).toEqual(initialState);
+    });
+
     test('test fetchIngredients.pending', () => {
       const action = { type: fetchIngredients.pending.type };
       const state = ingredientReducer(initialState, action);

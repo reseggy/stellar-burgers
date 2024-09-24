@@ -1,5 +1,13 @@
 import { setCookie } from '../../utils/cookie';
-import userReducer, { checkAuth, logout, registerUser, loginUser, getUser, updateUser, logoutUser } from '../userSlice';
+import userReducer, {
+  checkAuth,
+  logout,
+  registerUser,
+  loginUser,
+  getUser,
+  updateUser,
+  logoutUser
+} from '../userSlice';
 
 describe('userSlice tests', () => {
   const initialState = {
@@ -24,14 +32,23 @@ describe('userSlice tests', () => {
     localStorage.clear();
 
     // Очистка всех куков перед каждым тестом
-    document.cookie.split(";").forEach((c) => {
+    document.cookie.split(';').forEach((c) => {
       document.cookie = c
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
     });
   });
 
   describe('reducers tests', () => {
+    test('should return the initial state', () => {
+      const state = userReducer(undefined, { type: '@@INIT' });
+      expect(state).toEqual(initialState);
+    });
+
+    test('should handle unknown action', () => {
+      const state = userReducer(initialState, { type: 'UNKNOWN_ACTION' });
+      expect(state).toEqual(initialState);
+    });
     describe('checkAuth test', () => {
       test('test checkAuth', () => {
         localStorage.setItem('refreshToken', 'testRefreshToken'); // использую библиотеку jest-localstorage-mock для того, чтобы localStorage в тестах работал
@@ -44,7 +61,6 @@ describe('userSlice tests', () => {
 
     describe('logout test', () => {
       test('test logout', () => {
-
         const state = userReducer(initialStateLogin, logout());
         expect(state.user).toBeNull();
         expect(state.isAuthenticated).toBeFalsy();
@@ -67,7 +83,7 @@ describe('userSlice tests', () => {
           email: 'test@mail.ru',
           name: 'testName'
         }
-      }
+      };
 
       test('test registerUser.fulfilled', () => {
         const action = { type: registerUser.fulfilled.type, payload: response };
@@ -76,12 +92,19 @@ describe('userSlice tests', () => {
         expect(state.isLoading).toBeFalsy();
         expect(state.user).toEqual(response.user);
         expect(state.isAuthenticated).toBeTruthy();
-        expect(localStorage.getItem('refreshToken')).toEqual(response.refreshToken);
-        expect(document.cookie).toContain(`accessToken=${response.accessToken}`);
+        expect(localStorage.getItem('refreshToken')).toEqual(
+          response.refreshToken
+        );
+        expect(document.cookie).toContain(
+          `accessToken=${response.accessToken}`
+        );
       });
 
       test('test registerUser.rejected', () => {
-        const action = { type: registerUser.rejected.type, error: { message: 'Error' } };
+        const action = {
+          type: registerUser.rejected.type,
+          error: { message: 'Error' }
+        };
         const state = userReducer(initialState, action);
 
         expect(state.isLoading).toBeFalsy();
@@ -105,7 +128,7 @@ describe('userSlice tests', () => {
           email: 'test@mail.ru',
           name: 'testName'
         }
-      }
+      };
 
       test('test loginUser.fulfilled', () => {
         const action = { type: loginUser.fulfilled.type, payload: response };
@@ -114,12 +137,19 @@ describe('userSlice tests', () => {
         expect(state.isLoading).toBeFalsy();
         expect(state.user).toEqual(response.user);
         expect(state.isAuthenticated).toBeTruthy();
-        expect(localStorage.getItem('refreshToken')).toEqual(response.refreshToken);
-        expect(document.cookie).toContain(`accessToken=${response.accessToken}`);
+        expect(localStorage.getItem('refreshToken')).toEqual(
+          response.refreshToken
+        );
+        expect(document.cookie).toContain(
+          `accessToken=${response.accessToken}`
+        );
       });
 
       test('test loginUser.rejected', () => {
-        const action = { type: loginUser.rejected.type, error: {message: 'error'} };
+        const action = {
+          type: loginUser.rejected.type,
+          error: { message: 'error' }
+        };
         const state = userReducer(initialState, action);
 
         expect(state.isLoading).toBeFalsy();
@@ -140,7 +170,7 @@ describe('userSlice tests', () => {
         const user = {
           email: 'test@mail.ru',
           name: 'testName'
-        }
+        };
 
         const action = { type: getUser.fulfilled.type, payload: user };
         const state = userReducer(initialState, action);
@@ -150,7 +180,10 @@ describe('userSlice tests', () => {
       });
 
       test('test getUser.rejected', () => {
-        const action = { type: getUser.rejected.type, error: {message: 'Error'} };
+        const action = {
+          type: getUser.rejected.type,
+          error: { message: 'Error' }
+        };
         const state = userReducer(initialState, action);
 
         expect(state.isLoading).toBeFalsy();
@@ -171,7 +204,7 @@ describe('userSlice tests', () => {
         const user = {
           email: 'test@mail.ru',
           name: 'testName'
-        }
+        };
 
         const action = { type: updateUser.fulfilled.type, payload: user };
         const state = userReducer(initialState, action);
@@ -181,7 +214,10 @@ describe('userSlice tests', () => {
       });
 
       test('test updateUser.rejected', () => {
-        const action = { type: updateUser.rejected.type, error: {message: 'Error'} };
+        const action = {
+          type: updateUser.rejected.type,
+          error: { message: 'Error' }
+        };
         const state = userReducer(initialState, action);
 
         expect(state.isLoading).toBeFalsy();
@@ -193,7 +229,7 @@ describe('userSlice tests', () => {
       test('test logoutUser.pending', () => {
         const action = { type: logoutUser.pending.type };
         const state = userReducer(initialState, action);
-        
+
         expect(state.isLoading).toBeTruthy();
         expect(state.error).toBeNull();
       });
@@ -208,7 +244,10 @@ describe('userSlice tests', () => {
       });
 
       test('test logoutUser.rejected', () => {
-        const action = { type: logoutUser.rejected.type, error: {message: 'Error'} };
+        const action = {
+          type: logoutUser.rejected.type,
+          error: { message: 'Error' }
+        };
         const state = userReducer(initialState, action);
 
         expect(state.isLoading).toBeFalsy();

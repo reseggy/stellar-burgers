@@ -9,6 +9,16 @@ describe('feedSlice tests', () => {
     error: null
   };
   describe('reducers tests', () => {
+    test('should return the initial state', () => {
+      const state = feedReducer(undefined, { type: '@@INIT' });
+      expect(state).toEqual(initialState);
+    });
+
+    test('should handle unknown action', () => {
+      const state = feedReducer(initialState, { type: 'UNKNOWN_ACTION' });
+      expect(state).toEqual(initialState);
+    });
+
     test('test getFeeds.pending', () => {
       const action = { type: getFeeds.pending.type };
       const state = feedReducer(initialState, action);

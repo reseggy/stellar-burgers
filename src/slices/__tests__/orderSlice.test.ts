@@ -14,6 +14,16 @@ describe('orderSlice tests', () => {
   };
 
   describe('orderSlice reducers', () => {
+    test('should return the initial state', () => {
+      const state = orderReducer(undefined, { type: '@@INIT' });
+      expect(state).toEqual(initialState);
+    });
+
+    test('should handle unknown action', () => {
+      const state = orderReducer(initialState, { type: 'UNKNOWN_ACTION' });
+      expect(state).toEqual(initialState);
+    });
+
     describe('getOrders tests', () => {
       test('test getOrders.pending', () => {
         const action = { type: getOrders.pending.type };

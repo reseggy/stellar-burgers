@@ -7,7 +7,6 @@ import feedReducer from '../../slices/feedSlice';
 import { rootReducer } from '../store';
 
 describe('store reducers test', () => {
-
   test('initial state correctly', () => {
     const action = { type: '@@INIT' };
     const state = rootReducer(undefined, action);
@@ -32,5 +31,3 @@ describe('store reducers test', () => {
     });
   });
 });
-
-// TODO: Дописать тесты для ошибки и для @@INIT
