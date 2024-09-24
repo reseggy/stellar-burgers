@@ -20,6 +20,7 @@ const initialState: FeedState = {
 
 export const getFeeds = createAsyncThunk('feed/get', async () => {
   const response = await getFeedsApi();
+  console.log(response);
   return response;
 });
 

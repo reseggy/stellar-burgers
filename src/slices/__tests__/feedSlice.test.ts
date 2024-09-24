@@ -1,4 +1,3 @@
-import { OrdersList } from '@components';
 import feedReducer, { getFeeds } from '../feedSlice';
 
 describe('feedSlice tests', () => {

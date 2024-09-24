@@ -1,39 +1,36 @@
-import store from '../store';
+import constructorReducer from '../../slices/сonstructorSlice';
+import userReducer from '../../slices/userSlice';
+import orderReducer from '../../slices/orderSlice';
+import ingredientReducer from '../../slices/ingredientsSlice';
+import feedReducer from '../../slices/feedSlice';
+
+import { rootReducer } from '../store';
 
 describe('store reducers test', () => {
-  test('should return the initial state', () => {
-    const state = store.getState();
-    const expectedState = {
-      ingredients: {
-        ingredients: [],
-        isLoading: false,
-        error: null
-      },
-      user: {
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: null
-      },
-      order: {
-        orders: [],
-        orderData: null,
-        isLoading: false,
-        error: null,
-        orderRequest: false
-      },
-      feed: {
-        ordersList: [],
-        total: 0,
-        totalToday: 0,
-        isLoading: false,
-        error: null
-      },
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
-    };
-    expect(state).toEqual(expectedState);
+
+  test('initial state correctly', () => {
+    const action = { type: '@@INIT' };
+    const state = rootReducer(undefined, action);
+    expect(state).toEqual({
+      burgerConstructor: constructorReducer(undefined, action),
+      feed: feedReducer(undefined, action),
+      ingredients: ingredientReducer(undefined, action),
+      order: orderReducer(undefined, action),
+      user: userReducer(undefined, action)
+    });
   });
-})
+
+  test('unknown action correctly', () => {
+    const action = { type: 'UNKNOWN' };
+    const state = rootReducer(undefined, action);
+    expect(state).toEqual({
+      burgerConstructor: constructorReducer(undefined, action),
+      feed: feedReducer(undefined, action),
+      ingredients: ingredientReducer(undefined, action),
+      order: orderReducer(undefined, action),
+      user: userReducer(undefined, action)
+    });
+  });
+});
+
+// TODO: Дописать тесты для ошибки и для @@INIT
