@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { getFeedsApi } from '@api';
+import { getFeedsApi } from '../utils/burger-api';
 
 interface FeedState {
   ordersList: TOrder[];
@@ -20,6 +20,7 @@ const initialState: FeedState = {
 
 export const getFeeds = createAsyncThunk('feed/get', async () => {
   const response = await getFeedsApi();
+  console.log(response);
   return response;
 });
 
